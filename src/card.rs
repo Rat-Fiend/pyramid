@@ -11,7 +11,7 @@ pub struct Card {
 
 impl Default for Card {
     fn default() -> Self {
-        Card {
+        return Card {
             name: "Nameless".to_string(),
             value: u8::MAX,
             suit: 'z',
@@ -31,26 +31,86 @@ impl fmt::Display for Card {
 // I want to make the struct method only accessible through functions becaue there are a lot of rules involved
 // e.g. spades are black and hearts are red, I don't want a black heart on accident
 
-pub fn create_card (value:u8, suit:char) -> Option<Card>{
-    let mut card:Card = Default::default();
-    
-    card.value = value;
-    match value{
-        13 => card.name = "King".to_string(),
-        12 => card.name = "Queen".to_string(),
-        11 => card.name = "Jack".to_string(),
-        10|9|8|7|6|5|4|3|2 => card.name = value.to_string(),
-        1 => card.name = "Ace".to_string(),
-        0 => card.name = "Joker".to_string(),
-        _ => return None
+pub trait CardTools {
+    fn fill_card (&mut self, value:u8, suit:char);
+    fn create_card (value:u8, suit:char) -> Option<Card>;
+    fn get_name(self) -> String;
+}
+
+impl CardTools for Card {
+    fn fill_card (&mut self, value:u8, suit:char) {
+        self.value = value;
+
+        match value{
+            13 => self.name = "King".to_string(),
+            12 => self.name = "Queen".to_string(),
+            11 => self.name = "Jack".to_string(),
+            10|9|8|7|6|5|4|3|2 => self.name = value.to_string(),
+            1 => self.name = "Ace".to_string(),
+            0 => self.name = "Joker".to_string(),
+            _ => ()
+        }
+
+        self.suit = suit.to_ascii_lowercase();
+        match self.suit{
+            's' => {    // Spades
+                self.color='b';
+                self.name.push_str(" of Spades");
+            }
+            'c' => {    // Clubs
+                self.color='b';
+                self.name.push_str(" of Clubs");
+            }
+            'h' => {    // Hearts
+                self.color='r';
+                self.name.push_str(" of Hearts");
+            }
+            'd' => {    // Diamonds
+                self.color='r';
+                self.name.push_str(" of Diamonds");
+            }
+            _ => ()
+        }
     }
 
-    card.suit = suit.to_ascii_lowercase();
-    match card.suit{
-        's'|'c' => card.color='b',
-        'h'|'d' => card.color='r',
-        _ => return None
+    fn create_card (value:u8, suit:char) -> Option<Card> {
+        let mut card:Card = Default::default();
+
+        card.value = value;
+        match value{
+            13 => card.name = "King".to_string(),
+            12 => card.name = "Queen".to_string(),
+            11 => card.name = "Jack".to_string(),
+            10|9|8|7|6|5|4|3|2 => card.name = value.to_string(),
+            1 => card.name = "Ace".to_string(),
+            0 => card.name = "Joker".to_string(),
+            _ => return None
+        }
+
+        card.suit = suit.to_ascii_lowercase();
+        match card.suit{
+            's' => {    // Spades
+                card.color='b';
+                card.name.push_str(" of Spades");
+            }
+            'c' => {    // Clubs
+                card.color='b';
+                card.name.push_str(" of Clubs");
+            }
+            'h' => {    // Hearts
+                card.color='r';
+                card.name.push_str(" of Hearts");
+            }
+            'd' => {    // Diamonds
+                card.color='r';
+                card.name.push_str(" of Diamonds");
+            }
+            _ => return None
+        }
+        return Some(card);
     }
 
-    return Some(card);
+    fn get_name(self) -> String {
+            return self.name;
+    }
 }
