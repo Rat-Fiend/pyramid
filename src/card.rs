@@ -85,12 +85,12 @@ impl CardTools for Card {
 
         card.value = value;
         match value{
-            13 => card.name = "King".to_string(),
-            12 => card.name = "Queen".to_string(),
-            11 => card.name = "Jack".to_string(),
-            10|9|8|7|6|5|4|3|2 => card.name = value.to_string(),
-            1 => card.name = "Ace".to_string(),
-            0 => card.name = "Joker".to_string(),
+            13 => { card.name = "King".to_string(); card.symbol = 'K'.to_string() },
+            12 => { card.name = "Queen".to_string(); card.symbol = 'Q'.to_string() },
+            11 => { card.name = "Jack".to_string(); card.symbol = 'J'.to_string() },
+            10|9|8|7|6|5|4|3|2 => { card.name = value.to_string(); card.symbol = value.to_string() },
+            1 => { card.name = "Ace".to_string(); card.symbol = 'A'.to_string() },
+            0 => { card.name = "Joker".to_string(); card.symbol = 'X'.to_string() },
             _ => return None
         }
 

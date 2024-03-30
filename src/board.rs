@@ -1,7 +1,6 @@
 use core::fmt;
 
-use crate::card;
-use crate::card::CardTools;
+use crate::card::{self, CardTools};
 use crate::deck;
 
 // I am could implement the structure of the board using a sort of tree
@@ -69,6 +68,7 @@ pub struct Board {
     pyramid: [Option<card::Card>; 28],
 }
 
+// Returns board instance with pyramid array full of Nones
 impl Default for Board {
     fn default() -> Self {
         const ARRAY_REPEAT_VALUE: Option<card::Card> = None;
@@ -80,8 +80,7 @@ impl Default for Board {
     }
 }
 
-
-// TODO Print carde symbol instead of full name
+// Used as temporary display of pyramid structure
 impl fmt::Display for Board {
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), std::fmt::Error> {
         write!(f, 
@@ -154,5 +153,31 @@ impl fmt::Display for Board {
                 Some(valid_card) => valid_card.clone().get_symbol(), None => 'E'.to_string()
             }
         )
+    }
+}
+
+pub trait BoardTools {
+    fn fill_pyramid(&mut self, input_vec:Vec<card::Card>) -> Result<String, String>;
+}
+
+// Takes a Vec of 28 cards and fills the array
+impl BoardTools for Board {
+    fn fill_pyramid(&mut self, input_vec:Vec<card::Card>) -> Result<String, String> {
+        // Checking for the validity of the input Vec
+        // It needs to be 28 long exactly
+        if input_vec.len() != 28 {
+            return Err(("Invalid input Vec length :(".to_string()));
+        }
+        else {
+            let mut indexer: usize = 0;
+
+            // This loops 28 times, guarenteed
+            for input_card in input_vec {
+                self.pyramid[indexer] = Some(input_card);
+                indexer += 1;
+            }
+
+            return Ok("Pyramid filled successfully :)".to_string());
+        }
     }
 }

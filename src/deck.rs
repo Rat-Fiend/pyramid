@@ -10,10 +10,12 @@ pub struct Deck {
     cards:Vec<card::Card>,
 }
 
+// Returns a deck instance with an empty cards Vec
+// Could also default to a 52 card shuffled dec in wanted
 impl Default for Deck {
     fn default() -> Self {
         return Deck {
-            cards: default::Default::default(),
+            cards: Vec::new(),
         }
     }
 }
@@ -31,7 +33,7 @@ impl fmt::Display for Deck {
 pub trait DeckTools {
     fn card_count(&self) -> usize;
     fn add_stack(&mut self, stack: Vec<card::Card>);
-    fn drop_stack(&mut self, last: usize, first:usize) -> Vec<card::Card>;
+    fn drop_stack(&mut self, first: usize, last:usize) -> Vec<card::Card>;
     fn fill_deck(&mut self);
     fn shuffle(&mut self);
 
@@ -45,7 +47,9 @@ impl DeckTools for Deck {
         self.cards.append(&mut stack);
     }
 
-    fn drop_stack(&mut self, last: usize, first:usize) -> Vec<card::Card> {
+    // This takes indexes as input but it might be better to assume the cards are taken "off the top"
+    // Thus, it would only take a number of cards as input. This could be implemented as another function
+    fn drop_stack(&mut self, first: usize, last:usize) -> Vec<card::Card> {
         return  self.cards.drain(first..last).collect::<Vec<card::Card>>();
     }
 
