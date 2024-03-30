@@ -1,8 +1,5 @@
 use core::fmt;
 
-use rand::seq;
-
-
 #[derive(Clone)]
 #[derive(Debug)]
 pub struct Card {

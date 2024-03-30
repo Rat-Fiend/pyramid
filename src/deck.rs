@@ -1,7 +1,5 @@
 use core::fmt;
-use std::default;
 use rand::Rng;
-
 use crate::card::{self as card, CardTools};
 
 #[derive(Debug)]
