@@ -1,4 +1,5 @@
 use core::fmt;
+use std::default;
 use rand::Rng;
 use crate::card::{self as card, CardTools};
 
@@ -31,9 +32,10 @@ impl fmt::Display for Deck {
 pub trait DeckTools {
     fn card_count(&self) -> usize;
     fn add_stack(&mut self, stack: Vec<card::Card>);
-    fn drop_stack(&mut self, first: usize, last:usize) -> Vec<card::Card>;
+    fn drop_stack(&mut self, drop_size: usize) -> Vec<card::Card>;
     fn fill_deck(&mut self);
     fn shuffle(&mut self);
+    fn new_filled_and_shuffled() -> Self;
 
 }
 impl DeckTools for Deck {
@@ -45,10 +47,9 @@ impl DeckTools for Deck {
         self.cards.append(&mut stack);
     }
 
-    // This takes indexes as input but it might be better to assume the cards are taken "off the top"
-    // Thus, it would only take a number of cards as input. This could be implemented as another function
-    fn drop_stack(&mut self, first: usize, last:usize) -> Vec<card::Card> {
-        return  self.cards.drain(first..last).collect::<Vec<card::Card>>();
+    fn drop_stack(&mut self, drop_size: usize) -> Vec<card::Card> {
+        // Should account for the case where you try to drop more than the Vec contains
+        return  self.cards.drain((self.card_count() - drop_size)..self.card_count()).collect::<Vec<card::Card>>();
     }
 
     fn fill_deck(&mut self) {
@@ -80,5 +81,12 @@ impl DeckTools for Deck {
         for _ in 0..10000 {
             self.cards.swap(rng.gen_range(0..card_count), rng.gen_range(0..card_count));
         }
+    }
+
+    fn new_filled_and_shuffled() -> Self {
+        let mut new_deck: Deck = default::Default::default();
+        new_deck.fill_deck();
+        new_deck.shuffle();
+        return new_deck;
     }
 }
