@@ -36,7 +36,7 @@ pub trait DeckTools {
     fn fill_deck(&mut self);
     fn shuffle(&mut self);
     fn new_filled_and_shuffled() -> Self;
-
+    fn top_card_symbol(&self) -> String;
 }
 impl DeckTools for Deck {
     fn card_count(&self) -> usize {
@@ -88,5 +88,14 @@ impl DeckTools for Deck {
         new_deck.fill_deck();
         new_deck.shuffle();
         return new_deck;
+    }
+
+    fn top_card_symbol(&self) -> String {
+        let cards_len = self.cards.len();
+        if cards_len == 0 {
+            return 'E'.to_string();
+        } else {
+            return <card::Card as Clone>::clone(&self.cards[cards_len-1]).get_symbol();
+        }
     }
 }

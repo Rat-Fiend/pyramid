@@ -103,17 +103,19 @@ impl Default for Board {
 impl fmt::Display for Board {
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), std::fmt::Error> {
         write!(f, 
-"              {}
-             {} {}
-            {} {} {}
-           {} {} {} {}
-          {} {} {} {} {}
-         {} {} {} {} {} {}
-        {} {} {} {} {} {} {}",
+"   {}  {}              {}
+                   {}   {}
+                 {}   {}   {}
+               {}   {}   {}   {}
+             {}   {}   {}   {}   {}
+           {}   {}   {}   {}   {}   {}
+         {}   {}   {}   {}   {}   {}   {}",
 
             // I hate this method of printing all these elements but I don't know how to make a loop for it
             // I am so sorry, but I'm sure there is a way to make a loop for it (could loop println! instead of using one huge write!)
             // The end goal is to implement a GUI which would handle the printing, so this is temporary (I'm coping)
+            self.draw_stack.top_card_symbol(),
+            self.discard_stack.top_card_symbol(),
             match self.pyramid[0].card.as_ref() { 
                 Some(valid_card) => valid_card.clone().get_symbol(), None => 'E'.to_string()
             }, match self.pyramid[1].card.as_ref() { 
@@ -177,7 +179,7 @@ impl fmt::Display for Board {
 
 pub trait BoardTools {
     fn fill_pyramid(&mut self, input_vec:Vec<card::Card>) -> Result<String, String>;
-
+    fn match_card_pair(&mut self);
 }
 
 // Takes a Vec of 28 cards and fills the array
@@ -201,6 +203,10 @@ impl BoardTools for Board {
         }
     }
 
-    // // Needs to take 
-    // fn match_card_pair(&mut self, )
+    // Needs to take two arguments for card locations
+    // Kings are worth 13 and don't need a pair, they just leave
+    // Chosen cards can come from the base of the pyramid, the top of th edraw pile, or the top of the discard pile
+    fn match_card_pair(&mut self) {
+
+    }
 }
