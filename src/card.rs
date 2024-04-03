@@ -49,9 +49,10 @@ impl CardTools for Card {
             13 => { self.name = "King".to_string(); self.symbol = 'K'.to_string() },
             12 => { self.name = "Queen".to_string(); self.symbol = 'Q'.to_string() },
             11 => { self.name = "Jack".to_string(); self.symbol = 'J'.to_string() },
-            10|9|8|7|6|5|4|3|2 => { self.name = value.to_string(); self.symbol = value.to_string() },
+            10 => { self.name = value.to_string(); self.symbol = 'X'.to_string()}   // Using 'X' as 10 symbol to simplify the display formatting
+            9|8|7|6|5|4|3|2 => { self.name = value.to_string(); self.symbol = value.to_string() },
             1 => { self.name = "Ace".to_string(); self.symbol = 'A'.to_string() },
-            0 => { self.name = "Joker".to_string(); self.symbol = 'X'.to_string() },
+            0 => { self.name = "Joker".to_string(); self.symbol = 'V'.to_string() },
             _ => ()
         }
 
@@ -85,9 +86,10 @@ impl CardTools for Card {
             13 => { card.name = "King".to_string(); card.symbol = 'K'.to_string() },
             12 => { card.name = "Queen".to_string(); card.symbol = 'Q'.to_string() },
             11 => { card.name = "Jack".to_string(); card.symbol = 'J'.to_string() },
-            10|9|8|7|6|5|4|3|2 => { card.name = value.to_string(); card.symbol = value.to_string() },
+            10 => { card.name = value.to_string(); card.symbol = 'X'.to_string()}   // Using 'X' as 10 symbol to simplify the display formatting
+            9|8|7|6|5|4|3|2 => { card.name = value.to_string(); card.symbol = value.to_string() },
             1 => { card.name = "Ace".to_string(); card.symbol = 'A'.to_string() },
-            0 => { card.name = "Joker".to_string(); card.symbol = 'X'.to_string() },
+            0 => { card.name = "Joker".to_string(); card.symbol = 'V'.to_string() },
             _ => return None
         }
 
